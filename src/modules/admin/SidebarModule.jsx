@@ -81,7 +81,7 @@ export default function SidebarModule({ children }) {
       <CssBaseline />
       <AppBar position="fixed">
         <Toolbar>
-            <IconButton color="inherit" onClick={handleDrawer}>
+            <IconButton sx={{mr : 2}} color="inherit" onClick={handleDrawer}>
             {
                 open ?
                 (            
