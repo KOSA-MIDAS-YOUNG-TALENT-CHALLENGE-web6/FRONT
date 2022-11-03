@@ -8,6 +8,7 @@ import TimerModule from "../../modules/users/Timer/Timer";
 import customAxios from "../../lib/customAxios";
 import { useRecoilState } from "recoil";
 import { UserInfo } from "../../recoil/atom";
+
 function Home() {
   const [userInfo, setUserInfo] = useRecoilState(UserInfo);
   const getInfo = async () => {
@@ -29,8 +30,10 @@ function Home() {
         justifyContent: "center",
         width: "100vw",
         gap: 4,
+        maxWidth: '1660px',
       }}
     >
+
       <Box>
         <ProfileModule />
       </Box>

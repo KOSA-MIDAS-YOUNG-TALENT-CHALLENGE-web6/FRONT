@@ -51,7 +51,9 @@ const Signup = ({ setAuth }) => {
         <ContentStyle>
           <HeadingStyle component={motion.div} {...fadeInUp}>
             {/* <Logo /> */}
-
+            <Typography variant="h2" component='div'>
+              삼대장
+            </Typography>
             <Typography sx={{ color: "text.secondary", mb: 5 }}>
               Enter your details below.
             </Typography>

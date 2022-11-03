@@ -94,7 +94,7 @@ export default function SidebarModule({ children }) {
             }
             </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Persistent drawer
+            삼대장
           </Typography>
           <Drawer
         sx={{

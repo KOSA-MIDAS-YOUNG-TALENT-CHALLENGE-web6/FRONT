@@ -51,6 +51,9 @@ const LoginModule = ({ setAuth }) => {
         <ContentStyle>
           <HeadingStyle component={motion.div} {...fadeInUp}>
             {/* <Logo /> */}
+            <Typography variant="h2" component='div'>
+              삼대장
+            </Typography>
             <Typography sx={{ color: "text.secondary", mb: 5 }}>
               Login to your account
             </Typography>
