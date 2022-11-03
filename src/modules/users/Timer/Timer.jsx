@@ -1,9 +1,50 @@
 import React from "react";
 import { styled } from "@mui/system";
 import { Card, CircularProgress, circularProgressClasses } from "@mui/material";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { hourTime, minTime, secTime } from "../../../recoil/atom"
+import axios from 'axios';
+
+const padNumber = (num, length) => {
+  return String(num).padStart(length, '0');
+};
+
 export default function Timer() {
   const [progress, setProgress] = useState(10);
+
+  //Time
+  let now = new Date();
+
+    const [hour, setHour] = useState();
+    const [min, setMin] = useState();
+    const [sec, setSec] = useState();
+
+    const [nowHour, setNowHour] = useState(padNumber(now.getHours(), 2));
+    const [nowMin, setNowMin] = useState(padNumber(now.getMinutes(), 2));
+    const [nowSec, setNowSec] = useState(padNumber(now.getSeconds(), 2));
+    const interval = useRef(null);
+
+    useEffect(() => {
+      // axios.get('http://52.79.125.202:8881/officegoing')
+      // .then((res) => {
+      //   console.log(res)
+      //   setHour()
+      //   setMin()
+      //   setSec()
+      // })
+    }, []);
+
+    useEffect(() => {
+      interval.current = setInterval(() => {
+        now = new Date();
+        setNowHour(padNumber(now.getHours(), 2));
+        setNowMin(padNumber(now.getMinutes(), 2));
+        setNowSec(padNumber(now.getSeconds(), 2));
+      }, 1000);
+      // clean-up 함수 리턴!
+      return () => clearInterval(interval.current);
+    }, []);
+  //////
 
   return (
     <ProfileCard>
@@ -15,7 +56,7 @@ export default function Timer() {
           left: 60,
           color: (theme) =>
             theme.palette.grey[theme.palette.mode === "light" ? 200 : 800],
-        }}
+          }}
         size={300}
         thickness={4}
         value={100}
@@ -38,6 +79,7 @@ export default function Timer() {
         }}
         thickness={4}
       />
+      {nowHour} : {nowMin} : {nowSec}
     </ProfileCard>
   );
 }

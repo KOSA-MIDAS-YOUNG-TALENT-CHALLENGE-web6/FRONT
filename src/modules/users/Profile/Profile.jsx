@@ -7,6 +7,12 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Card, Button, Modal } from "@mui/material";
 import { Container } from "@mui/material";
 import Webcam from "react-webcam";
+import Swal from 'sweetalert2'
+import customAxios from "../../../lib/customAxios"
+
+const padNumber = (num, length) => {
+  return String(num).padStart(length, '0');
+};
 
 function Profile() {
   const videoRef = useRef(null);
@@ -14,6 +20,31 @@ function Profile() {
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isWorking, setIsWorking] = useState(false);
+
+
+
+  //Time
+  let now = new Date();
+
+  const storeTime = () => {
+    const hour = padNumber(now.getHours(), 2)
+    const min = padNumber(now.getMinutes(), 2)
+    const sec = padNumber(now.getSeconds(), 2)
+    const time = `${hour}:${min}:${sec}`
+    console.log(time.toString())
+    console.log(localStorage.getItem("token"))
+    customAxios.post('/officegoing')
+    .then((res) => {
+      if(res.status == 201) {
+        Swal.fire(
+          '성공',
+          '',
+          'success'
+        )
+      }
+    })
+
+  }
 
   const webcamRef = React.useRef(null);
 
@@ -23,6 +54,10 @@ function Profile() {
   }, [webcamRef]);
 
   useEffect(() => {}, [videoRef]);
+
+  useEffect(() => {
+    // customAxios.get('/officegoing')
+  })
   return !isLoading ? (
     <ProfileCard sx={{ width: 450, padding: 5 }}>
       <div className="info">
@@ -107,7 +142,9 @@ function Profile() {
               capture();
               setIsPlaying(false);
               setIsWorking(true);
+              storeTime()
             }}
+
           >
             업로드
           </Button>
