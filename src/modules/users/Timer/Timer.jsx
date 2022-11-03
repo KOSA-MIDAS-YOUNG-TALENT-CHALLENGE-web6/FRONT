@@ -45,7 +45,7 @@ export default function Timer() {
       // setNowHour(padNumber(now.getHours(), 2));
       // setNowMin(padNumber(now.getMinutes(), 2));
       // setNowSec(padNumber(now.getSeconds(), 2));
-      let differ = nowTime - time;
+      let differ = nowTime - time
       setHour(Math.floor((differ % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)))
       setMin(Math.floor((differ % (1000 * 60 * 60)) / (1000 * 60)))
       setSec(Math.floor((differ % (1000 * 60)) / 1000))
