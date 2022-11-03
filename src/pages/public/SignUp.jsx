@@ -1,11 +1,11 @@
 import React from "react";
-import LoginModule from "../../modules/public/LoginModule";
+import SignUpModule from "../../modules/public/SignUpModule";
 
 
 function Login () {
     return(
         <>
-            <LoginModule/>
+            <SignUpModule/>
         </>
     );
 }

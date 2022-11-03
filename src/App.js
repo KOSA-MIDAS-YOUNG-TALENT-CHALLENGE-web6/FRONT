@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Login from "./pages/public/Login";
+import SignUp from "./pages/public/SignUp";
 import Home from "./pages/users/Home";
 
 const theme = createTheme({
@@ -26,6 +27,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path="/login" element={<Login/>}/>
+        <Route path="/signup" element={<SignUp/>}/>
         <Route path="/admin">
           <Route index path="home" element={<Home/>}/>
         </Route>
