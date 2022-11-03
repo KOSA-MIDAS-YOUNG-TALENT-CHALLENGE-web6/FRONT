@@ -8,18 +8,20 @@ import { Box } from "@mui/material";
 
 function Home() {
   return (
-    <Container sx={{ boxSizing: "border-box" }}>
-      <Box
-        sx={{
-          padding: 3,
-          display: "flex",
-          flexWrap: "wrap",
-          boxSizing: "border-box",
-          gap: 4,
-        }}
-      >
+    <Container 
+    maxWidth={false}
+    sx={{
+      padding: '24px',
+      margin: '0',
+      display: "flex",
+      flexWrap: "wrap",
+      boxSizing: "border-box",
+      justifyContent: 'center',
+      width: '100vw',
+      gap: 4 
+    }}>
         <Box>
-          <ProfileModule />
+          <ProfileModule/>
         </Box>
         <Box>
           <ScheduleModule />
@@ -28,7 +30,6 @@ function Home() {
           <ToDoModule />
         </Box>
         <Box></Box>
-      </Box>
     </Container>
   );
 }
