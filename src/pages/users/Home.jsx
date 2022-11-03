@@ -4,6 +4,7 @@ import ProfileModule from "../../modules/users/Profile/Profile";
 import ToDoModule from "../../modules/users/Todo/ToDo";
 import ScheduleModule from "../../modules/users/schedule/Schedule";
 import { Box } from "@mui/material";
+import TimerModule from "../../modules/users/Timer/Timer";
 
 function Home() {
   return (
@@ -29,7 +30,9 @@ function Home() {
       <Box>
         <ToDoModule />
       </Box>
-      <Box></Box>
+      <Box>
+        <TimerModule />
+      </Box>
     </Container>
   );
 }
