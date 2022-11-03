@@ -59,7 +59,7 @@ function SignUpComponents({ setAuth }) {
       console.log(e);
         axios.post('http://52.79.125.202:8881/user', e)
             .then((res) => {
-                console.log(res)
+                console.log(res.status)
         })
     },
   });
