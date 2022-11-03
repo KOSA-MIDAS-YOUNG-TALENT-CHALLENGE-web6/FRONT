@@ -5,6 +5,7 @@ import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
 export default function Schedule() {
+  const oneWeeks = ["월", "화", "수", "목", "토", "일"];
   return (
     <ScheduleCard>
       <h2>이번 주 근무</h2>
@@ -14,6 +15,7 @@ export default function Schedule() {
 }
 
 const ScheduleCard = styled(Card)(({ theme }) => ({
+  width: 600,
   boxSizing: "border-box",
   color: "darkslategray",
   padding: "20px 30px 40px 30px",
@@ -22,8 +24,10 @@ const ScheduleCard = styled(Card)(({ theme }) => ({
   "&>.info": { display: "flex", justifyContent: "space-around" },
 }));
 
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+const BorderLinearProgress = styled(LinearProgress)(({ theme, value }) => ({
+  width: 450,
   height: 15,
+  display: "box",
   borderRadius: 5,
   [`&.${linearProgressClasses.colorPrimary}`]: {
     backgroundColor:
@@ -31,6 +35,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
   [`& .${linearProgressClasses.bar}`]: {
     borderRadius: 5,
-    backgroundColor: theme.palette.mode === "light" ? "#1a90ff" : "#308fe8",
+    backgroundColor:
+      value >= 65 ? "#348cde" : value >= 35 ? "#ff9800" : "#f44336",
   },
 }));

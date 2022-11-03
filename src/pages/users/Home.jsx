@@ -4,27 +4,31 @@ import Grid from "@mui/system/Unstable_Grid";
 import ProfileModule from "../../module/users/Profile/Profile";
 import ToDoModule from "../../module/users/ToDo";
 import ScheduleModule from "../../module/users/schedule/Schedule";
+import { Box } from "@mui/material";
 
 function Home() {
   return (
     <Container sx={{ boxSizing: "border-box" }}>
-      <Grid
-        container
-        rowSpacing={1}
-        // columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-        sx={{ padding: 3, width: 1300, boxSizing: "border-box" }}
+      <Box
+        sx={{
+          padding: 3,
+          display: "flex",
+          flexWrap: "wrap",
+          boxSizing: "border-box",
+          gap: 4,
+        }}
       >
-        <Grid xs={6}>
+        <Box>
           <ProfileModule />
-        </Grid>
-        <Grid xs={6}>
+        </Box>
+        <Box>
           <ScheduleModule />
-        </Grid>
-        <Grid xs={6}>
+        </Box>
+        <Box>
           <ToDoModule />
-        </Grid>
-        <Grid xs={6}></Grid>
-      </Grid>
+        </Box>
+        <Box></Box>
+      </Box>
     </Container>
   );
 }
