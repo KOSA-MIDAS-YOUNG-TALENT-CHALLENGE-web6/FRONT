@@ -17,6 +17,7 @@ import { Navigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import axios from 'axios';
+import Swal from 'sweetalert2'
 
 //애니메이션 설정
 let easing = [0.6, -0.05, 0.01, 0.99];
@@ -54,19 +55,39 @@ function LoginComponents({ setAuth }) {
       password: "",
     },
     validateonSchema: LoginSchema,
-    onSubmit: (e) => {
-    //   console.log("submit");
-    //   //서버로 보내기
-    //   setTimeout(() => {
-    //     console.log("submited");
-    //     setAuth(true);
-    //     Navigate(from, { replace: true });
-    //   }, 2000);
-        console.log(e);
+    onSubmit: (e, {setSubmitting}) => {
+      setTimeout(() => {
+        setSubmitting(false)
+      }, 1000);
         axios.post('http://52.79.125.202:8881/user/login', e)
-            .then((res) => {
-                console.log(res)
-        })
+          .then((res) => {
+            console.log(res)
+            if(res.status == 200) {
+              Swal.fire(
+                '로그인 되었습니다.',
+                '',
+                'success'
+              )
+              localStorage.setItem('token', res.data.access_token)
+              navigate("/home", { replace: true });
+            }
+          })
+          .catch((err) => {
+            console.log(err.request.status)
+            if(err.request.status == 404) {
+              Swal.fire(
+                '존재하지 않은 이메일입니다.',
+                '다시 한번 이메일을 확인해주세요.',
+                'error'
+              )
+            } else if (err.request.status == 409){
+              Swal.fire(
+                '비밀번호가 틀렸습니다.',
+                '다시 한번 비밀번호를 확인해주세요.',
+                'error'
+              )
+            }
+          })
     },
   });
 
