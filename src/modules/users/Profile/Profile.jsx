@@ -29,71 +29,99 @@ const ProfileCardWarrper = styled(Card)(({ theme }) => ({
 ////////////////
 
 const padNumber = (num, length) => {
-  return String(num).padStart(length, '0');
+  return String(num).padStart(length, "0");
 };
 
 function Profile() {
+  const [userInfo, setUserInfo] = useRecoilState(UserInfo);
   const videoRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isWorking, setIsWorking] = useState(false);
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
 
-
-
+  useEffect(() => {}, [image]);
   //Time
   let now = new Date();
 
-  const storeTime = () => {
-    const hour = padNumber(now.getHours(), 2)
-    const min = padNumber(now.getMinutes(), 2)
-    const sec = padNumber(now.getSeconds(), 2)
-    const time = `${hour}:${min}:${sec}`
-    console.log(time.toString())
-    console.log(localStorage.getItem("token"))
-    customAxios.post('/officegoing')
-    .then((res) => {
-      if(res.status == 201) {
-        Swal.fire(
-          '성공',
-          '',
-          'success'
-        )
-      }
-    })
+  const storeTime = async () => {
+    const hour = padNumber(now.getHours(), 2);
+    const min = padNumber(now.getMinutes(), 2);
+    const sec = padNumber(now.getSeconds(), 2);
+    const time = `${hour}:${min}:${sec}`;
+    console.log(time.toString());
+    if (image) {
+      const formData = new FormData();
+      formData.append("image", image);
+      const { imageUrl } = await customAxios.post(`/images`, {
+        image: formData,
+      });
+      setImageUrl(imageUrl);
+    }
+  };
 
-  }
+  const workingStart = async () => {
+    if (image) {
+      const formData = new FormData();
+      formData.append("image", image);
+      const { imageUrl } = await customAxios.post(`/images`, {
+        image: formData,
+      });
+      setImageUrl(imageUrl);
+    }
+    customAxios.post("/officegoing", { image: imageUrl }).then((res) => {
+      if (res.status === 201) {
+        Swal.fire("출근", "", "success").then(() => {
+          setUserInfo((props) => {
+            return { ...props, is_office_going: true };
+          });
+        });
+      }
+    });
+  };
 
   const webcamRef = React.useRef(null);
 
   const capture = React.useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-    console.log(imageSrc);
+    setImage(imageSrc);
   }, [webcamRef]);
 
-  useEffect(() => {}, [videoRef]);
+  const quit = async () => {
+    customAxios.post("/quitting").then(() => {
+      setUserInfo((props) => {
+        return { ...props, is_office_going: false };
+      });
+    });
+  };
 
   useEffect(() => {
-    // customAxios.get('/officegoing')
-  })
+    console.log("call");
+  }, [videoRef, userInfo]);
+
   return !isLoading ? (
     <ProfileCardWarrper>
       <div className="info">
         <AccountCircleIcon sx={{ fontSize: 150 }} />
         <Box>
           <p>
-            <strong>이름:</strong> 정우재
+            <strong>이름:</strong>
+            {userInfo.name}
           </p>
           <p>
-            <strong>소속:</strong> 프론트엔드팀
+            <strong>소속:</strong>
+            {userInfo.user_application ? userInfo.user_application : "무"}
           </p>
           <p>
-            <strong>직급:</strong> 신입사원
+            <strong>직급:</strong>
+            {userInfo.user_position ? userInfo.user_position : "무"}
           </p>
         </Box>
       </div>
 
-      {!isWorking ? (
+      {!userInfo.is_office_going ? (
         <Box
           sx={{ height: 40, display: "flex", justifyContent: "space-around" }}
         >
@@ -116,7 +144,7 @@ function Profile() {
             color="error"
             variant="outlined"
             onClick={() => {
-              setIsWorking(false);
+              quit();
             }}
           >
             퇴근 하기
@@ -160,9 +188,9 @@ function Profile() {
               capture();
               setIsPlaying(false);
               setIsWorking(true);
-              storeTime()
+              storeTime();
+              workingStart();
             }}
-
           >
             업로드
           </Button>
