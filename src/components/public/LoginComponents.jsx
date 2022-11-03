@@ -6,8 +6,6 @@ import { Box,
     InputAdornment,
     IconButton,
     Stack,
-    FormControlLabel,
-    Checkbox,
 } from "@mui/material";
 import { motion } from 'framer-motion';
 import LoadingButton from '@mui/lab/LoadingButton';
