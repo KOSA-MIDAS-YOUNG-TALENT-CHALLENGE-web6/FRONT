@@ -1,19 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { styled } from "@mui/system";
 import {
   Card,
-  Box,
   Checkbox,
   TextField,
   FormGroup,
   FormControlLabel,
 } from "@mui/material";
 import { useState } from "react";
+import customAxios from "../../../lib/customAxios";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 export default function ToDo() {
   const [todos, setTodos] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
+  const addTodo = async (content) => {
+    customAxios.post("/feed", { content });
+  };
+  const getTodo = async () => {
+    const { data } = await customAxios.get("/feed");
+    console.log(data);
+    setTodos(data.feed_list);
+  };
+  useEffect(() => {
+    getTodo();
+  }, []);
   return (
     <TodoCard>
       <TextField
@@ -25,17 +37,43 @@ export default function ToDo() {
           if (e.keyCode === 13) {
             setTodos((props) => [
               ...props,
-              { id: props.length, title: e.target.value, done: false },
+              { id: props.length, content: e.target.value, done: false },
             ]);
+            addTodo(e.target.value);
+            e.target.value = "";
           }
         }}
       />
       <FormGroup>
-        {todos.map((todo) => (
+        {todos.map((todo, idx) => (
           <FormControlLabel
             key={todo.id}
-            control={todo.done ? <Checkbox defaultChecked /> : <Checkbox />}
-            label={todo.title}
+            control={
+              todo.done ? (
+                <Checkbox
+                  defaultChecked
+                  onClick={() => {
+                    console.log("h123");
+                  }}
+                />
+              ) : (
+                <Checkbox
+                  onClick={() => {
+                    // const newTodo = todos.map((currentTodo) => {
+                    //   if (todo.id === currentTodo.id) {
+                    //     return {
+                    //       todo: currentTodo.id,
+                    //       content: currentTodo.content,
+                    //       done: true,
+                    //     };
+                    //   }
+                    // });
+                    // setTodos(newTodo);
+                  }}
+                />
+              )
+            }
+            label={todo.content}
           />
         ))}
       </FormGroup>

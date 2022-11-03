@@ -1,17 +1,22 @@
 import React from "react";
-import { atom } from "recoil"
+import { atom } from "recoil";
 
 export const hourTime = atom({
-    key: 'HourTime',
-    default: "",
-})
+  key: "HourTime",
+  default: "",
+});
 
 export const minTime = atom({
-    key: 'MinTime',
-    default: "",
-})
+  key: "MinTime",
+  default: "",
+});
 
 export const secTime = atom({
-    key: 'SecTime',
-    default: "",
-})
+  key: "SecTime",
+  default: "",
+});
+
+export const UserInfo = atom({
+  key: "userInfo",
+  default: {},
+});

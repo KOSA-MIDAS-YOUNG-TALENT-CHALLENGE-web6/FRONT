@@ -10,11 +10,12 @@ import {
   InputAdornment,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { motion } from "framer-motion";
-import axios from 'axios';
-import Swal from 'sweetalert2'
+import axios from "axios";
+import Swal from "sweetalert2";
+import CustomAxios from "../../lib/customAxios";
 
 let easing = [0.6, -0.05, 0.01, 0.99];
 const animate = {
@@ -28,8 +29,6 @@ const animate = {
 };
 
 function SignUpComponents({ setAuth }) {
-
-
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -52,39 +51,38 @@ function SignUpComponents({ setAuth }) {
       password: "",
     },
     validationSchema: SignupSchema,
-    onSubmit: (e , {setSubmitting}) => {
+    onSubmit: (e, { setSubmitting }) => {
       setTimeout(() => {
-        setSubmitting(false)
+        setSubmitting(false);
       }, 1000);
-        axios.post('http://52.79.125.202:8881/user', e)
-            .then((res) => {
-                console.log(res.status)
-              if(res.status == 201) {
-                //console.log('성공!');
-                Swal.fire(
-                  '회원가입에 성공하셨습니다.',
-                  '다시 로그인 해주시길 바랍니다.',
-                  'success'
-                )
-                navigate("/login", { replace: true });
-              }
-            })
-            .catch((err) => {
-              console.log(err.request.status)
-              if(err.request.status == 400) {
-                Swal.fire(
-                  '비밀번호 안전하게 입력해주세요',
-                  '귀찮아하지 말고 안전하게 입력해주세요',
-                  'error'
-                )
-              } else if (err.request.status == 409){
-                Swal.fire(
-                  '이미 가입된 이메일이 있습니다.',
-                  '다른 이메일로 가입해주세요.',
-                  'error'
-                )
-              }
-            })
+      axios
+        .post("http://52.79.125.202:8881/user", e)
+        .then((res) => {
+          if (res.status === 201) {
+            Swal.fire(
+              "회원가입에 성공하셨습니다.",
+              "다시 로그인 해주시길 바랍니다.",
+              "success"
+            );
+            navigate("/login", { replace: true });
+          }
+        })
+        .catch((err) => {
+          console.log(err.request.status);
+          if (err.request.status === 400) {
+            Swal.fire(
+              "비밀번호 안전하게 입력해주세요",
+              "귀찮아하지 말고 안전하게 입력해주세요",
+              "error"
+            );
+          } else if (err.request.status === 409) {
+            Swal.fire(
+              "이미 가입된 이메일이 있습니다.",
+              "다른 이메일로 가입해주세요.",
+              "error"
+            );
+          }
+        });
     },
   });
 
@@ -106,7 +104,7 @@ function SignUpComponents({ setAuth }) {
               type="email"
               label="Email address"
               {...getFieldProps("email")}
-              error={(touched.email && errors.email) ? true : false }
+              error={touched.email && errors.email ? true : false}
               helperText={touched.email && errors.email}
             />
           </Stack>
@@ -117,15 +115,12 @@ function SignUpComponents({ setAuth }) {
             initial={{ opacity: 0, y: 40 }}
             animate={animate}
           >
-            
             <TextField
               fullWidth
               autoComplete="name"
               label="Name"
-              {
-                ...getFieldProps("name")
-              }
-              error={(touched.name && errors.name) ? true : false }
+              {...getFieldProps("name")}
+              error={touched.name && errors.name ? true : false}
               helperText={touched.name && errors.name}
             />
 
