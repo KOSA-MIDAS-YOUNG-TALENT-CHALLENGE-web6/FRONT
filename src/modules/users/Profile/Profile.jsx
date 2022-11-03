@@ -6,49 +6,49 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Card, Button, Modal } from "@mui/material";
 import { Container } from "@mui/material";
 import Webcam from "react-webcam";
-import Swal from 'sweetalert2'
-import customAxios from "../../../lib/customAxios"
-import { styled } from '@mui/material';
+import Swal from "sweetalert2";
+import customAxios from "../../../lib/customAxios";
+import { styled } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { UserInfo } from "../../../recoil/atom";
-import { axios } from 'axios'
+import { axios } from "axios";
 
-////////////
 const ProfileCardWarrper = styled(Card)(({ theme }) => ({
   boxSizing: "border-box",
   display: "box",
   color: "darkslategray",
   backgroundColor: "aliceblue",
   borderRadius: 4,
-  width: 450, 
+  width: 450,
   padding: 5,
-  height: '100%',
+  height: "100%",
   "&>.info": { display: "flex", justifyContent: "space-around" },
-  [theme.breakpoints.down('sm')]: {
-    width: '90vw',
-    margin: '20px 10px 0px 10px'
+  [theme.breakpoints.down("sm")]: {
+    width: "90vw",
+    margin: "20px 10px 0px 10px",
   },
-  
 }));
-////////////////
-
 
 const padNumber = (num, length) => {
   return String(num).padStart(length, "0");
 };
 
 function getLocation() {
-  if (navigator.geolocation) { // GPS를 지원하면
-    navigator.geolocation.getCurrentPosition(function(position) {
-    }, function(error) {
-      console.error(error);
-    }, {
-      enableHighAccuracy: false,
-      maximumAge: 0,
-      timeout: Infinity
-    });
+  if (navigator.geolocation) {
+    // GPS를 지원하면
+    navigator.geolocation.getCurrentPosition(
+      function (position) {},
+      function (error) {
+        console.error(error);
+      },
+      {
+        enableHighAccuracy: false,
+        maximumAge: 0,
+        timeout: Infinity,
+      }
+    );
   } else {
-    alert('GPS를 지원하지 않습니다');
+    alert("GPS를 지원하지 않습니다");
   }
 }
 
@@ -72,14 +72,6 @@ function Profile() {
     const sec = padNumber(now.getSeconds(), 2);
     const time = `${hour}:${min}:${sec}`;
     console.log(time.toString());
-    if (image) {
-      const formData = new FormData();
-      formData.append("image", image);
-      const { imageUrl } = await customAxios.post(`/images`, {
-        image: formData,
-      });
-      setImageUrl(imageUrl);
-    }
   };
 
   const workingStart = async () => {
@@ -106,7 +98,14 @@ function Profile() {
 
   const capture = React.useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-    setImage(imageSrc);
+
+    const reader = new FileReader();
+    reader.readAsDataURL(imageSrc);
+    reader.onloadend = () => {
+      const base64 = reader.result;
+      console.log(base64);
+      if (base64) localStorage("img", base64.toString());
+    };
   }, [webcamRef]);
 
   const quit = async () => {
@@ -117,9 +116,7 @@ function Profile() {
     });
   };
 
-  useEffect(() => {
-    console.log("call");
-  }, [videoRef, userInfo]);
+  useEffect(() => {}, [videoRef, userInfo]);
 
   return !isLoading ? (
     <ProfileCardWarrper>

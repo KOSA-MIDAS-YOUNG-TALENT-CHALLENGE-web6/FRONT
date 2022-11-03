@@ -1,39 +1,40 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import SidebarModule from "../../modules/admin/SidebarModule";
 import { Avatar, Box, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { users } from "../../data/testdata.json";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import ImageIcon from "@mui/icons-material/Image";
+import { Link } from "react-router-dom";
 
-const rows = [
-  { lastName: 'Snow', },
-  { lastName: 'Lannister', },
-  { lastName: 'Lannister',  },
-  { lastName: 'Stark', },
-  { lastName: 'Targaryen',  },
-  { lastName: 'Melisandre', },
-  { lastName: 'Clifford', },
-  { lastName: 'Frances', },
-  { lastName: 'Roxie', },
-];
+import customAxios from "../../lib/customAxios";
+import { Container } from "@mui/system";
 
 function UserData() {
-  const columns = useMemo(
-    () => [
-      // {
-      //   field: "photoURL",
-      //   headerName: "Avertar",
-      //   width: 60,
-      //   renderCell: (params) => <Avatar scr={params.row.photoURL} />,
-      //   sortable: false,
-      //   filter: false,
-      // },
-      { field: "name", headerName: "Name", width: 170 },
-      { field: "email", headerName: "Email", width: 200 },
-      { field: "state", headerName: "State", width: 100, type: "singleSelect", valueOptions:['1', '2', '3'], editable: true},
-    ], []
-  );
+  const [usersInfo, setUsersInfo] = useState([]);
+  const getUsersInfo = async (fillter = "every") => {
+    const { data } = await customAxios.get(`/user/${fillter}`);
+    console.log(data);
+    setUsersInfo(data.user_list);
+  };
+  const [fillter, setFillter] = useState(1);
 
-  // const count = useMemo(() => countUser(users) , [users]);
+  useEffect(() => {
+    if (fillter === 1) {
+      getUsersInfo("every");
+    } else if (fillter === 2) {
+      getUsersInfo("officegoing");
+    } else if (fillter === 3) {
+      getUsersInfo("quitting");
+    }
+  }, [fillter]);
 
   return (
     <SidebarModule>
@@ -50,8 +51,60 @@ function UserData() {
             mb: 3,
           }}
         >
-          <Typography>Manage Users</Typography>
-          <DataGrid columns={columns} rows={rows} getRowId={(rows) => rows._id} />
+          {/* <Typography>Manage Users</Typography> */}
+          <Container
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+              position: "relative",
+            }}
+          >
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={fillter}
+              label="보기"
+              sx={{
+                width: 100,
+                position: "absolute",
+                top: 20,
+                right: 50,
+                zIndex: 1,
+              }}
+              onChange={(e) => {
+                setFillter(e.target.value);
+              }}
+            >
+              <MenuItem value={1}>전체</MenuItem>
+              <MenuItem value={2}>출근</MenuItem>
+              <MenuItem value={3}>퇴근</MenuItem>
+            </Select>
+            <List
+              sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+            >
+              {usersInfo.map((user) => {
+                return (
+                  <Link to={`/admin/id?id=${user.id}`}>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <ImageIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={user.name}
+                        secondary={`소속:${
+                          user.user_application ? user.user_application : "무"
+                        }`}
+                      />{" "}
+                    </ListItem>
+                  </Link>
+                );
+              })}
+            </List>
+          </Container>
         </Box>
       </Box>
     </SidebarModule>

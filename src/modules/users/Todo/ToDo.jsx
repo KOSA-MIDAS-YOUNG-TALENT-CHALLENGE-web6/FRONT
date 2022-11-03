@@ -6,9 +6,11 @@ import {
   TextField,
   FormGroup,
   FormControlLabel,
+  Box,
 } from "@mui/material";
 import { useState } from "react";
 import customAxios from "../../../lib/customAxios";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -23,6 +25,11 @@ export default function ToDo() {
     console.log(data);
     setTodos(data.feed_list);
   };
+
+  const deleteTodo = async (todoId) => {
+    customAxios.delete(`/feed${todoId}`);
+  };
+
   useEffect(() => {
     getTodo();
   }, []);
@@ -46,35 +53,47 @@ export default function ToDo() {
       />
       <FormGroup>
         {todos.map((todo, idx) => (
-          <FormControlLabel
-            key={todo.id}
-            control={
-              todo.done ? (
-                <Checkbox
-                  defaultChecked
-                  onClick={() => {
-                    console.log("h123");
-                  }}
-                />
-              ) : (
-                <Checkbox
-                  onClick={() => {
-                    // const newTodo = todos.map((currentTodo) => {
-                    //   if (todo.id === currentTodo.id) {
-                    //     return {
-                    //       todo: currentTodo.id,
-                    //       content: currentTodo.content,
-                    //       done: true,
-                    //     };
-                    //   }
-                    // });
-                    // setTodos(newTodo);
-                  }}
-                />
-              )
-            }
-            label={todo.content}
-          />
+          <Box>
+            <FormControlLabel
+              key={todo.id}
+              control={
+                todo.done ? (
+                  <Box>
+                    <Checkbox defaultChecked onClick={() => {}} />
+                  </Box>
+                ) : (
+                  <Box>
+                    <Checkbox
+                      onClick={() => {
+                        // const newTodo = todos.map((currentTodo) => {
+                        //   if (todo.id === currentTodo.id) {
+                        //     return {
+                        //       todo: currentTodo.id,
+                        //       content: currentTodo.content,
+                        //       done: true,
+                        //     };
+                        //   }
+                        // });
+                        // setTodos(newTodo);
+                      }}
+                    />
+                  </Box>
+                )
+              }
+              label={todo.content}
+            />
+            <DeleteIcon
+              onClick={() => {
+                const newTodos = todos.filter((checkTodo) => {
+                  if (checkTodo.id !== todo.id) {
+                    deleteTodo(todo.id);
+                  }
+                  return checkTodo.id !== todo.id;
+                });
+                setTodos(newTodos);
+              }}
+            />
+          </Box>
         ))}
       </FormGroup>
     </TodoCard>
@@ -92,8 +111,8 @@ const TodoCard = styled(Card)(({ theme }) => ({
   padding: "20px 30px 40px 30px",
   backgroundColor: "aliceblue",
   borderRadius: 4,
-  [theme.breakpoints.down('sm')]: {
-    width: '90vw',
-    margin: '0px 10px 20px 10px'
+  [theme.breakpoints.down("sm")]: {
+    width: "90vw",
+    margin: "0px 10px 20px 10px",
   },
 }));
