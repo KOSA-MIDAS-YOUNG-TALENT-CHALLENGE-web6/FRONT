@@ -23,11 +23,6 @@ const theme = createTheme({
       contrastText: "#000",
     },
   },
-  vars: {
-    fontSize: {
-      md : 16
-    }
-  }
 });
 
 function App() {
@@ -37,8 +32,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/admin">
-          <Route index path="dashboard" element={<Dashboard/>}/>
-          <Route index path="userdata" element={<UserData/>}/>
+          <Route index path="dashboard" element={<Dashboard />} />
+          <Route index path="userdata" element={<UserData />} />
         </Route>
         <Route path="/">
           <Route index path="home" element={<Home />} />
