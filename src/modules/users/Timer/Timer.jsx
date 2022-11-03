@@ -15,11 +15,11 @@ export default function Timer() {
   const [userInfo, setUserInfo] = useRecoilState(UserInfo);
   const [progress, setProgress] = useState(10);
   const [workTime, setWorkTime] = useState(null);
-
+  
   const getTodayWorkTime = async () => {
     const { data } = await customAxios.get("/user/today");
-    console.log(data);
-    setWorkTime(data);
+    console.log(data.today_office_going_time)
+    setWorkTime(data.today_office_going_time);
   };
 
   //Time
@@ -40,10 +40,16 @@ export default function Timer() {
 
   useEffect(() => {
     interval.current = setInterval(() => {
-      now = new Date();
-      setNowHour(padNumber(now.getHours(), 2));
-      setNowMin(padNumber(now.getMinutes(), 2));
-      setNowSec(padNumber(now.getSeconds(), 2));
+      let time = new Date(workTime)
+      let nowTime = new Date();
+      // setNowHour(padNumber(now.getHours(), 2));
+      // setNowMin(padNumber(now.getMinutes(), 2));
+      // setNowSec(padNumber(now.getSeconds(), 2));
+      let differ = nowTime - time;
+      setHour(Math.floor((differ % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)))
+      setMin(Math.floor((differ % (1000 * 60 * 60)) / (1000 * 60)))
+      setSec(Math.floor((differ % (1000 * 60)) / 1000))
+      setProgress(differ/288000)
     }, 1000);
     // clean-up 함수 리턴!
     return () => clearInterval(interval.current);
@@ -83,7 +89,7 @@ export default function Timer() {
       />
       <Box sx={{ position: "absolute", top: 150, left: 150 }}>
         <h2>
-          {nowHour} : {nowMin} : {nowSec}
+          {hour} : {min} : {sec}
         </h2>
       </Box>
     </ProfileCard>

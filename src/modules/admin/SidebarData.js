@@ -1,20 +1,21 @@
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import FolderSharedIcon from '@mui/icons-material/FolderShared';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 export const SidebarData = [
     {
         title: "Dashboard",
-        path: "/",
-        icon: <InboxIcon/>,
+        path: "../dashboard",
+        icon: <DashboardIcon/>,
     },
     {
         title: "UserData",
-        path: "/",
-        icon: <InboxIcon/>,
+        path: "../userdata",
+        icon: <FolderSharedIcon/>,
     },
     {
         title: "Schedule",
-        path: "/",
-        icon: <InboxIcon/>,
+        path: "../",
+        icon: <CalendarMonthIcon/>,
     },
 ]

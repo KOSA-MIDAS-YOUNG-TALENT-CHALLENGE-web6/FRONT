@@ -9,6 +9,9 @@ import Webcam from "react-webcam";
 import Swal from 'sweetalert2'
 import customAxios from "../../../lib/customAxios"
 import { styled } from '@mui/material';
+import { useRecoilState } from "recoil";
+import { UserInfo } from "../../../recoil/atom";
+import { axios } from 'axios'
 
 ////////////
 const ProfileCardWarrper = styled(Card)(({ theme }) => ({
@@ -19,6 +22,7 @@ const ProfileCardWarrper = styled(Card)(({ theme }) => ({
   borderRadius: 4,
   width: 450, 
   padding: 5,
+  height: '100%',
   "&>.info": { display: "flex", justifyContent: "space-around" },
   [theme.breakpoints.down('sm')]: {
     width: '90vw',
@@ -28,9 +32,25 @@ const ProfileCardWarrper = styled(Card)(({ theme }) => ({
 }));
 ////////////////
 
+
 const padNumber = (num, length) => {
   return String(num).padStart(length, "0");
 };
+
+function getLocation() {
+  if (navigator.geolocation) { // GPS를 지원하면
+    navigator.geolocation.getCurrentPosition(function(position) {
+    }, function(error) {
+      console.error(error);
+    }, {
+      enableHighAccuracy: false,
+      maximumAge: 0,
+      timeout: Infinity
+    });
+  } else {
+    alert('GPS를 지원하지 않습니다');
+  }
+}
 
 function Profile() {
   const [userInfo, setUserInfo] = useRecoilState(UserInfo);
@@ -190,6 +210,7 @@ function Profile() {
               setIsWorking(true);
               storeTime();
               workingStart();
+              getLocation();
             }}
           >
             업로드

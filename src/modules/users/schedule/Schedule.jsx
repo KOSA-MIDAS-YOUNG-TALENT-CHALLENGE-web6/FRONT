@@ -33,6 +33,16 @@ const ButtonWarpper = styled(Button)(({ theme }) => ({
   },
 }));
 
+const ButtonWarpper2 = styled(Button)(({ theme }) => ({
+  width: 78,
+  cursor: "default",
+  backgroundColor: "#e03131",
+  height: 50,
+  [theme.breakpoints.down('sm')]: {
+    width: '11.5vw',
+  },
+}));
+
 const BorderWapper = styled(Box)(({ theme }) => ({
   display: "flex",
   gap: 3,
@@ -78,13 +88,13 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme, value }) => ({
 export default function Schedule() {
   const weeks = ["월", "화", "수", "목", "금", "토", "일"];
   const workingTimes = [
-    { start: "", end: "" },
-    { start: "", end: "" },
-    { start: "", end: "" },
-    { start: "", end: "" },
-    { start: "", end: "" },
-    { start: "", end: "" },
-    { start: "", end: "" },
+    { start: "08:20", end: "17:20" },
+    { start: "10:30", end: "19:30" },
+    { start: "12:20", end: "21:20" },
+    { start: "07:45", end: "16:45" },
+    { start: "09:00", end: "18:00" },
+    { start: "NaN", end: "NaN" },
+    { start: "NaN", end: "NaN" },
   ];
   return (
     <ScheduleCard>
@@ -93,22 +103,36 @@ export default function Schedule() {
         variant="outlined"
         aria-label="outlined primary button group"
       >
-        {weeks.map((day) => (
+        {weeks.map((day) => {
+          var d = new Date();
+          var week = new Array('일', '월', '화', '수', '목', '금', '토')
+
+          if(week[d.getDay()] == day){
+            return (
+              <ButtonWarpper2
+                variant="contained"
+              >
+                {day}
+              </ButtonWarpper2>
+              )
+          } else {
+          return (
           <ButtonWarpper
             variant="contained"
           >
             {day}
           </ButtonWarpper>
-        ))}
+          )}})}
       </ButtonGroup>
       <BorderWapper>
-        {workingTimes.map((workingTime) => {
+        {workingTimes.map((item, index) => {
           return (
             <ChipBox>
               <Chipwrapper label="출근" variant="outlined" color="success"></Chipwrapper>
-              <p>08:20</p>
+
+              <p>{item.start}</p>
               <Chipwrapper label="퇴근" variant="outlined" color="error" />
-              <p>16:20</p>
+              <p>{item.end}</p>
             </ChipBox>
           );
         })}

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
+import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -114,13 +115,15 @@ export default function SidebarModule({ children }) {
         
         <List>
           {SidebarData.map((item, index) => (
-            <ListItem key={item.title} disablePadding>
-              <ListItemButton path={item.path}>
+            <ListItem key={item.title} disablePadding >
+              <Link to={item.path}>
+              <ListItemButton>
                 <ListItemIcon>
                   {item.icon}
                 </ListItemIcon>
                 <ListItemText primary={item.title} />
               </ListItemButton>
+            </Link>
             </ListItem>
           ))}
         </List>
