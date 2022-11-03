@@ -98,14 +98,6 @@ function Profile() {
 
   const capture = React.useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
-
-    const reader = new FileReader();
-    reader.readAsDataURL(imageSrc);
-    reader.onloadend = () => {
-      const base64 = reader.result;
-      console.log(base64);
-      if (base64) localStorage("img", base64.toString());
-    };
   }, [webcamRef]);
 
   const quit = async () => {
