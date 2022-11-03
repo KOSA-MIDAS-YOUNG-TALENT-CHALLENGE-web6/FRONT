@@ -145,9 +145,9 @@ export default function SidebarModule({ children }) {
       
       <Main open={open}>
         <DrawerHeader />
-        <Typography paragraph>
+        <Box paragraph>
             {children}
-        </Typography>
+        </Box>
       </Main>
     </Box>
   );

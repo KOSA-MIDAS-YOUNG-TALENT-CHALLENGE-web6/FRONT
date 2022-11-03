@@ -5,6 +5,7 @@ import Login from "./pages/public/Login";
 import SignUp from "./pages/public/SignUp";
 import Home from "./pages/users/Home";
 import Dashboard from "./pages/admin/Dashboard";
+import UserData from "./pages/admin/UserData";
 
 const theme = createTheme({
   palette: {
@@ -31,6 +32,7 @@ function App() {
         <Route path="/signup" element={<SignUp/>}/>
         <Route path="/admin">
           <Route index path="dashboard" element={<Dashboard/>}/>
+          <Route index path="userdata" element={<UserData/>}/>
         </Route>
         <Route path="/">
           <Route index path="home" element={<Home/>}/>
