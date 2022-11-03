@@ -60,7 +60,11 @@ function SignUpComponents({ setAuth }) {
         axios.post('http://52.79.125.202:8881/user', e)
             .then((res) => {
                 console.log(res.status)
-        })
+              if(res.status == 200) {
+                console.log('성공!');
+                
+              }
+            })
     },
   });
 
