@@ -4,22 +4,62 @@ import { styled } from "@mui/system";
 import LinearProgress, {
   linearProgressClasses,
 } from "@mui/material/LinearProgress";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import { Chip } from "@mui/material";
+
 export default function Schedule() {
-  const weeks = ["월", "화", "수", "목", "토", "일"];
+  const weeks = ["월", "화", "수", "목", "금", "토", "일"];
+  const workingTimes = [
+    { start: "", end: "" },
+    { start: "", end: "" },
+    { start: "", end: "" },
+    { start: "", end: "" },
+    { start: "", end: "" },
+    { start: "", end: "" },
+    { start: "", end: "" },
+  ];
   return (
     <ScheduleCard>
-      <h2>이번 주 근무</h2>
+      {/* <h3>이번 주 근무</h3> */}
+      <ButtonGroup
+        variant="outlined"
+        aria-label="outlined primary button group"
+      >
+        {weeks.map((day) => (
+          <Button
+            sx={{
+              width: 78,
+              cursor: "default",
+              backgroundColor: "#2196f3",
+              height: 50,
+            }}
+            variant="contained"
+          >
+            {day}
+          </Button>
+        ))}
+      </ButtonGroup>
       <Box
         sx={{
           display: "flex",
-          border: "1px solid #616161",
-          justifyContent: "space-around",
+          gap: 3,
+          border: "1px solid #757575",
         }}
       >
-        {weeks.map((day, idx) => {
+        {workingTimes.map((workingTime) => {
           return (
-            <Box key={idx} sx={{ width: 60, height: 50, textAlign: "center" }}>
-              <h3>{day}</h3>
+            <Box
+              sx={{
+                width: 75,
+                textAlign: "center",
+                cursor: "default",
+              }}
+            >
+              <Chip label="출근" variant="outlined" color="success"></Chip>
+              <p>08:20</p>
+              <Chip label="퇴근" variant="outlined" color="error" />
+              <p>16:20</p>
             </Box>
           );
         })}
