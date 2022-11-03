@@ -6,9 +6,15 @@ import SignUp from "./pages/public/SignUp";
 import Home from "./pages/users/Home";
 import "./App.css";
 import Dashboard from "./pages/admin/Dashboard";
+import UserID from "./pages/admin/UserID";
 import UserData from "./pages/admin/UserData";
 
 const theme = createTheme({
+  breakpoints: {
+    values: {
+      sm: 590
+    }
+  },
   palette: {
     primary: {
       light: "#757ce8",
@@ -34,6 +40,7 @@ function App() {
         <Route path="/admin">
           <Route index path="dashboard" element={<Dashboard />} />
           <Route index path="userdata" element={<UserData />} />
+          <Route index path=":userid" element={<UserID />} />
         </Route>
         <Route path="/">
           <Route index path="home" element={<Home />} />

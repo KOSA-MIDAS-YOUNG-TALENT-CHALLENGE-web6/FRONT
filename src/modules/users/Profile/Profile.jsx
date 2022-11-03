@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import SkeletonModule from "./Skeleton";
 import Box from "@mui/material/Box";
-import { styled } from "@mui/system";
 import Chip from "@mui/material/Chip";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Card, Button, Modal } from "@mui/material";
@@ -9,6 +8,25 @@ import { Container } from "@mui/material";
 import Webcam from "react-webcam";
 import Swal from 'sweetalert2'
 import customAxios from "../../../lib/customAxios"
+import { styled } from '@mui/material';
+
+////////////
+const ProfileCardWarrper = styled(Card)(({ theme }) => ({
+  boxSizing: "border-box",
+  display: "box",
+  color: "darkslategray",
+  backgroundColor: "aliceblue",
+  borderRadius: 4,
+  width: 450, 
+  padding: 5,
+  "&>.info": { display: "flex", justifyContent: "space-around" },
+  [theme.breakpoints.down('sm')]: {
+    width: '90vw',
+    margin: '20px 10px 0px 10px'
+  },
+  
+}));
+////////////////
 
 const padNumber = (num, length) => {
   return String(num).padStart(length, '0');
@@ -59,7 +77,7 @@ function Profile() {
     // customAxios.get('/officegoing')
   })
   return !isLoading ? (
-    <ProfileCard sx={{ width: 450, padding: 5 }}>
+    <ProfileCardWarrper>
       <div className="info">
         <AccountCircleIcon sx={{ fontSize: 150 }} />
         <Box>
@@ -150,19 +168,10 @@ function Profile() {
           </Button>
         </Container>
       </Modal>
-    </ProfileCard>
+    </ProfileCardWarrper>
   ) : (
     <SkeletonModule />
   );
 }
 
 export default Profile;
-
-const ProfileCard = styled(Card)(({ theme }) => ({
-  boxSizing: "border-box",
-  display: "box",
-  color: "darkslategray",
-  backgroundColor: "aliceblue",
-  borderRadius: 4,
-  "&>.info": { display: "flex", justifyContent: "space-around" },
-}));

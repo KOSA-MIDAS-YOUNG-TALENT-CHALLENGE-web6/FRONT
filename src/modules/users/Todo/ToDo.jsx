@@ -54,4 +54,8 @@ const TodoCard = styled(Card)(({ theme }) => ({
   padding: "20px 30px 40px 30px",
   backgroundColor: "aliceblue",
   borderRadius: 4,
+  [theme.breakpoints.down('sm')]: {
+    width: '90vw',
+    margin: '0px 10px 20px 10px'
+  },
 }));

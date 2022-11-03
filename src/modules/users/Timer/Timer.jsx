@@ -93,4 +93,8 @@ const ProfileCard = styled(Card)(({ theme }) => ({
   color: "darkslategray",
   backgroundColor: "aliceblue",
   borderRadius: 4,
+  [theme.breakpoints.down('sm')]: {
+    width: '90vw',
+    margin: '0px 10px 20px 10px'
+  },
 }));
