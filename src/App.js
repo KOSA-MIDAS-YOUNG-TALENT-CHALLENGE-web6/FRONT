@@ -30,6 +30,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/admin">
           <Route index path="dashboard" element={<Dashboard/>}/>
           <Route index path="userdata" element={<UserData/>}/>

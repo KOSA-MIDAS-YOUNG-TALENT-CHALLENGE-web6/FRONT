@@ -16,6 +16,8 @@ import * as Yup from "yup";
 import { Navigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import axios from 'axios';
+
 //애니메이션 설정
 let easing = [0.6, -0.05, 0.01, 0.99];
 const animate = {
@@ -50,17 +52,21 @@ function LoginComponents({ setAuth }) {
     initialValues: {
       email: "",
       password: "",
-      remember: true,
     },
     validateonSchema: LoginSchema,
-    onSubmit: () => {
-      console.log("submit");
-      //서버로 보내기
-      setTimeout(() => {
-        console.log("submited");
-        setAuth(true);
-        Navigate(from, { replace: true });
-      }, 2000);
+    onSubmit: (e) => {
+    //   console.log("submit");
+    //   //서버로 보내기
+    //   setTimeout(() => {
+    //     console.log("submited");
+    //     setAuth(true);
+    //     Navigate(from, { replace: true });
+    //   }, 2000);
+        console.log(e);
+        axios.post('http://52.79.125.202:8881/user/login', e)
+            .then((res) => {
+                console.log(res)
+        })
     },
   });
 
@@ -69,7 +75,7 @@ function LoginComponents({ setAuth }) {
 
   return (
     <FormikProvider value={formik}>
-      <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+      <Form autoComplete="off" noValidate onSubmit={handleSubmit} method="post">
         <Box
           component={motion.div}
           animate={{
