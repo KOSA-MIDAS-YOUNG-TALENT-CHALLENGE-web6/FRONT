@@ -23,11 +23,7 @@ const theme = createTheme({
       contrastText: "#000",
     },
   },
-  vars: {
-    fontSize: {
-      md : 16
-    }
-  }
+  
 });
 
 function App() {
