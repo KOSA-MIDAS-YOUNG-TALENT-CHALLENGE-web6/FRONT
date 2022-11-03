@@ -1,0 +1,20 @@
+{
+    "user" : [{
+        "Photo": "a",
+        "Name": "d",
+        "Position": "1",
+        "State": true
+    },
+    {
+        "Photo": "b",
+        "Name": "e",
+        "Position": "2",
+        "State": false
+    },
+    {
+        "Photo": "c",
+        "Name": "dfffs",
+        "Position": "3",
+        "State": false
+    }]
+}
