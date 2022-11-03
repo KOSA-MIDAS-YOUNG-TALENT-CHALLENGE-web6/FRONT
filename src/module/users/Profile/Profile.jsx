@@ -24,7 +24,7 @@ function Profile() {
 
   useEffect(() => {}, [videoRef]);
   return !isLoading ? (
-    <ProfileCard sx={{ width: 500, padding: 5 }}>
+    <ProfileCard sx={{ width: 450, padding: 5 }}>
       <div className="info">
         <AccountCircleIcon sx={{ fontSize: 150 }} />
         <Box>
@@ -123,6 +123,7 @@ export default Profile;
 
 const ProfileCard = styled(Card)(({ theme }) => ({
   boxSizing: "border-box",
+  display: "box",
   color: "darkslategray",
   backgroundColor: "aliceblue",
   borderRadius: 4,

@@ -10,8 +10,8 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { motion } from "framer-motion";
 
 let easing = [0.6, -0.05, 0.01, 0.99];
@@ -78,7 +78,7 @@ function SignUpComponents({ setAuth }) {
               fullWidth
               label="Name"
               {...getFieldProps("name")}
-              error={(touched.name && errors.name) ? true : false }
+              error={touched.name && errors.name ? true : false}
               helperText={touched.name && errors.name}
             />
           </Stack>
@@ -95,7 +95,7 @@ function SignUpComponents({ setAuth }) {
               type="email"
               label="Email address"
               {...getFieldProps("email")}
-              error={(touched.email && errors.email) ? true : false }
+              error={touched.email && errors.email ? true : false}
               helperText={touched.email && errors.email}
             />
 
@@ -112,17 +112,16 @@ function SignUpComponents({ setAuth }) {
                       edge="end"
                       onClick={() => setShowPassword((prev) => !prev)}
                     >
-                        {
-                            showPassword ? 
-                                (<VisibilityOffIcon/>) 
-                                : 
-                                (<VisibilityIcon/>)
-                        }
+                      {showPassword ? (
+                        <VisibilityOffIcon />
+                      ) : (
+                        <VisibilityIcon />
+                      )}
                     </IconButton>
                   </InputAdornment>
                 ),
               }}
-              error={(touched.password && errors.password) ? true : false }
+              error={touched.password && errors.password ? true : false}
               helperText={touched.password && errors.password}
             />
           </Stack>
@@ -146,6 +145,6 @@ function SignUpComponents({ setAuth }) {
       </Form>
     </FormikProvider>
   );
-};
+}
 
 export default SignUpComponents;
