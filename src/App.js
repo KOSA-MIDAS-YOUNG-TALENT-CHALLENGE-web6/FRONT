@@ -1,7 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "./pages/users/Home";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Login from "./pages/public/Login";
+import Home from "./pages/users/Home";
 
 const theme = createTheme({
   palette: {
@@ -19,15 +20,16 @@ const theme = createTheme({
      },
    }
  })
- 
+
 function App() {
   return (
     <ThemeProvider theme={theme}>
       <Routes>
+        <Route path="/login" element={<Login/>}/>
         <Route path="/admin">
           <Route index path="home" element={<Home/>}/>
         </Route>
-        <Route path="/users">
+        <Route path="/">
           <Route index path="home" element={<Home/>}/>
         </Route>
       </Routes>
